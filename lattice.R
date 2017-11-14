@@ -76,36 +76,22 @@ get_mag_per_s <- function(mat){
 ### Hot Spin configuration:
 ### This function randomly sets up the spins in the lattice with
 ### values either 1 or -1
-init_spin_config_hot <- function(mat){
-  for(i in 1:dim_N){
-    for(j in 1:dim_N){
-      if(runif(n=1,min=-1,max=1)>=0){
-        mat[i,j]<- 1
-      } else{
-        mat[i,j]<- -1
-      }
-    }
-  }
-  return(mat)
+init_spin_config_hot <- function(){
+  matrix(sample(c(-1, 1), dim_N^2, replace = TRUE), ncol = dim_N, nrow = dim_N)
 }
 
 ### Cold Spin configuration:
 ### This function sets up the spins in the lattice all 
 ### facing in one direction.
-init_spin_config_cold <- function(mat){
-  for(i in 1:dim_N){
-    for(j in 1:dim_N){
-      mat[i,j]=-1
-    }
-  }
-  return(mat)
+init_spin_config_cold <- function(){
+  matrix(-1,ncol = dim_N, nrow = dim_N)
 }
 
 ####################
 ### MAIN PROGRAM ###
 ####################
 lattice <- array(rep(0,dim_N^2), dim=c(dim_N,dim_N)) ### initialize matrix
-lattice <- init_spin_config_cold(lattice) ### write all alligned spins into matrix
+lattice <- init_spin_config_cold() ### write all alligned spins into matrix
 mag_list <- rep(0,iterations) ### create lists to safe magnetization
 ene_list <- rep(0,iterations) ### and energies.
 x <- (1:nrow(lattice)) ### put the lattice dimensions as an array
